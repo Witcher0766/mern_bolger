@@ -2,30 +2,10 @@ import React, { useEffect, useState } from 'react';
 // import Post from '../../component/post/Post';
 
 const IndexPage = () => {
-  // const [posts, setPosts] = useState([]);
-  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   fetch(`${process.env.REACT_APP_SERVER_URL}post`)
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(posts => {
-  //       setPosts(posts);
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       setError(error);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
   const loading = false;
-const posts = [];
+  const posts = [];
 
   if (loading) {
     return <p>Loading...</p>;
