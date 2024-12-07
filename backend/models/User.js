@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 const userSchema = mongoose.Schema({
     username: {
         type: String, 
-        required: true,
         min: 4, 
         unique: true,
     },
@@ -34,6 +33,6 @@ userSchema.pre('save', async function (next) {
     this.password  = await bcrypt.hash(this.password, salt);
 })
 
-const User = model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;
