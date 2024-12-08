@@ -15,7 +15,7 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // get all posts by id
 router.get('/:id', asyncHandler(async (req, res) => {
-   const posts = await PostModel.findById(req.params.id);
+   const posts = await PostModel.findById(req.params.id).populate('author');
    if(posts) {
      return res.json(posts);
    }

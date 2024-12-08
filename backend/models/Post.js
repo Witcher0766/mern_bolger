@@ -15,8 +15,9 @@ const PostSchema = mongoose.Schema({
         type: String,
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        _id: mongoose.Schema.Types.ObjectId,
+        username: String,
+        email: String,
     }
 }, {
     timestamps: true,

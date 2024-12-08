@@ -24,9 +24,10 @@ const importData = async () => {
         );
         const samplePosts = postData.map((post, index) => {
             const userIndex = index % createdUsers.length;
+            const author = createdUsers[userIndex];
             return {
                 ...post,
-                author: createdUsers[userIndex]._id, 
+                author: { _id: author._id, username: author.username, email: author.email }, 
             };
         });
         await PostModel.insertMany(samplePosts);
