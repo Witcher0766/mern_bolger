@@ -46,25 +46,25 @@ const Header = () => {
   function logout() {
 
   }
-  const username = "testing"
+  const username = ""
 
 
   return (
     <>
-        <header>
+        <header className='d-flex justify-between px-28'>
         <Link to="/" className='font-extrabold font-serif text-2xl md:text-3xl lg:text-4xl' >Bol<span className='text-sky-400'>ger</span></Link>
         <nav>
         {username && (
           <>
-            <Link className={styles["link-btn"]} to="/create">Create</Link>
-            <button className='btn-1' onClick={logout}>Logout</button>
+            {/* <Link className={styles["link-btn"]} to="/create">Create</Link> */}
+            {/* <button className='btn-1' onClick={logout}>Logout</button> */}
             <p className='w-1/2 h-1/2 border-' to="/create">F</p>
           </>
         )}
         {!username && (
           <>
           <Link className={styles["log-btn"]} to="/login">Login</Link>
-          <Link className={styles["log-btn1"]} to="/register">Register</Link>
+          {/* <Link className={styles["log-btn1"]} to="/register">Register</Link> */}
           </>
         )}
         </nav>

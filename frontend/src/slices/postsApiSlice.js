@@ -1,0 +1,1 @@
+import { POSTS_URL } from "../constants";

@@ -18,7 +18,7 @@ const Box = () => {
   }
 
   return (
-    <div className="flex flex-col text-center p-5  mb-8 justify-center md:p-10 md:text-left">
+    <div className="flex flex-col text-center p-5 lg:px-28  mb-8 justify-center md:p-10 md:text-left">
       <div className="flex flex-col justify-center gap-6">
         <h1 className="text-6xl font-semibold md:text-5xl lg:text-6xl">
           Blog with <span className="text-sky-400">the best.</span>{" "}
