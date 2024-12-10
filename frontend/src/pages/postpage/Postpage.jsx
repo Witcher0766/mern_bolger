@@ -1,35 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styles from './Postpage.module.css';
 import {formatISO9075} from "date-fns";
-// import { UserContext } from '../../context/UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+import { useGetPostsByIdQuery } from '../../slices/postsApiSlice';
+import Loader from '../../component/Loader';
 
 
 const Postpage = () => {
-  const {id} = useParams();
-  console.log("idd", id)
-  // const {userInfo} = useContext(UserContext);
-  const [postInfo, setPostInfo] = useState(null);
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const { data } = await axios.get(`/api/posts/${id}`);
-        console.log("response", data);
-        setPostInfo(data);
-      } catch (error) {
-        console.error("Error fetching post:", error.response?.data || error.message);
-      }
-    };
-    fetchPost();
-  }, [id]);
-
-
+  const {id: postId} = useParams();
+  const {data: postInfo, isLoading, isError} = useGetPostsByIdQuery(postId);
   // const handleDelete = async () => {
   //   try {
   //     const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post/${id}`, {
@@ -55,7 +38,14 @@ const Postpage = () => {
 
   if(!postInfo) return '';
   return (
-    <div className={styles["main-container"]}>
+    <>
+    {isLoading ? (
+      <Loader/>
+    ) : isError ? (
+      <div>{isError?.data?.message || isError.error}</div>
+    ) : (
+      <>
+      <div className={styles["main-container"]}>
     <h1>{postInfo.title}</h1>
     <div className={styles["main-title"]}>
     <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
@@ -70,6 +60,10 @@ const Postpage = () => {
     <img className={styles["post-img"]} src={`${process.env.REACT_APP_SERVER_URL}${postInfo.cover}`} alt="" />
     <div className={styles["main-content"]} dangerouslySetInnerHTML={{__html:postInfo.content}} />
     </div>
+      </>
+    ) }
+  
+    </>
   )
 }
 
