@@ -1,22 +1,22 @@
 const userData = [
     {
       name: "John",
-      email: "johnDoe",
+      email: "johnDoe@gmail.com",
       password: "password123",
     },
     {
       name: 'Jane',
-      email: "janeSmith",
+      email: "janeSmith@gmail.com",
       password: "securePass456",
     },
     {
       name: "alice",
-      email: "aliceJohnson",
+      email: "aliceJohnson@gmail.com",
       password: "mySecret789",
     },
     {
       name: "bob",
-      email: "bobBrown",
+      email: "bobBrown@gmail.com",
       password: "pass1234",
     },
   ];
