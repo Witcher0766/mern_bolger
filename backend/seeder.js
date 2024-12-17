@@ -15,13 +15,16 @@ const importData = async () => {
     try {
         await PostModel.deleteMany();
         await User.deleteMany();
-        const createdUsers = await User.insertMany(
-            userData.map(user => ({
-                username: user.email.split('@')[0], 
+        const createdUsers = []; 
+        for (const user of userData) {
+            const newUser = new User({
+                username: user.email.split('@')[0],
                 email: user.email,
-                password: user.password, 
-            }))
-        );
+                password: user.password,
+            });
+            const savedUser = await newUser.save(); 
+            createdUsers.push(savedUser);
+        }
         const samplePosts = postData.map((post, index) => {
             const userIndex = index % createdUsers.length;
             const author = createdUsers[userIndex];
