@@ -58,14 +58,19 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route POST /api/users/logout
 // @access Public
 const logoutUser = asyncHandler(async (req, res) => {
-  res.json("logout user");
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0)
+  });
+  res.status(200).json({message: "Logout Successfully"});
 });
 
 // @desc Get User Profile
 // @route POST /api/users/profile
 // @access Public
 const getUserProfile = asyncHandler(async (req, res) => {
-  res.json("get user profile");
+  const users = await User.find({});
+  res.status(200).json(users);
 });
 
 // @desc Update User Profile
