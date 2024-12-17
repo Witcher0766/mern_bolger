@@ -6,14 +6,9 @@ import generateToken from "../utils/generateToken.js";
 // @route POST /api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res) => {
-
-  
   const {email, password} = req.body;
   const user = await User.findOne({email});
-  console.log("hitted", await user.matchPassword(password))
   if(user && (await user.matchPassword(password))) {
-  console.log("user",user);
-
     generateToken(res, user._id);
     res.status(200).json({
       _id: user._id,
@@ -31,8 +26,33 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route POST /api/users/register
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.json("register user");
+  const {username, email, password} = req.body;
+  const userExists = await User.findOne({email});
+
+  if(userExists) {
+    res.status(400);
+    throw new Error("User Already Exists");
+  }
+
+  const user = await User.create({
+    username,
+    email,
+    password,
+  });
+
+  if(user) {
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.username,
+      email: user.email,
+    })
+  }else {
+    res.status(400);
+    throw new Error("Invalid User Data");
+  }
 });
+
 
 // @desc Logout user / clear cookies
 // @route POST /api/users/logout
