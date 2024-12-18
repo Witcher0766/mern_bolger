@@ -1,53 +1,51 @@
-import React, { useContext, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './LoginPage.module.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate,useLocation } from 'react-router-dom'
 import Card from '../../component/card/Card'
 import loginImg from "../../assets/login.gif";
-import { UserContext } from '../../context/UserContext';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../component/Loader';
+import { useLoginMutation } from '../../slices/usersApiSlice';
+import { setCredentials } from '../../slices/authSlice';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {setUserInfo} = useContext(UserContext);
-  let navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  async function login(e) {
+  const [login, {isLoading} ] = useLoginMutation();
+
+  const {userInfo} = useSelector((state) => state.auth);
+  console.log("userinfo", userInfo)
+
+  const {search} = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get('redirect') || '/';
+
+  useEffect(() =>{
+    if(userInfo){
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate])
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}login`, {
-        // method: 'POST',
-        // body: JSON.stringify({username, password}),
-        // headers: { 'Content-Type': 'application/json'},
-        // credentials: 'include',
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        response.json().then(userInfo => {
-          localStorage.setItem('userInfo', JSON.stringify(userInfo));
-          localStorage.setItem('isLoggedIn', true); 
-          localStorage.setItem('username', username); 
-          setUserInfo(userInfo);
-          navigate("/");
-          toast.success("Login successful");
-        })
-      } else {
-        toast.error("login failed");
-      }
-    } catch (error) {
-      console.log("Error during login",error);
-      toast.error("login failed..!! Please try again later");
+    const res = await login({email, password}).unwrap();
+    dispatch(setCredentials({...res}));
+    navigate(redirect);
+    toast.success("Login Successfull")
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   }
 
@@ -59,13 +57,13 @@ const LoginPage = () => {
     <Card>
       <div className={styles.form}>
         <h2>Login</h2>
-        <form onSubmit={login}>
+        <form onSubmit={submitHandler}>
           <input
             type="email"
             placeholder="Email"
             required
-            value={username}
-            onChange={e => setUsername(e.target.value)}
+            value={email}
+            onChange={e => setEmail(e.target.value)}
           />
           <input
             type="password"
@@ -74,12 +72,13 @@ const LoginPage = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <button className="btn">
+          <button className="btn" disabled={isLoading}>
             Login
           </button>
-          <div className={styles.links}>
+          {isLoading  && <Loader/>}
+          {/* <div className={styles.links}>
             <Link to="/reset">Reset Password</Link>
-          </div>
+          </div> */}
         </form>
       <div className={styles["accordion"]}>
       <Accordion>
@@ -98,7 +97,7 @@ const LoginPage = () => {
     </div>
         <span className={styles.register}>
           <p>Don't have an account? </p>
-          <Link to="/register">Register</Link>
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
         </span>
       </div>
     </Card>
