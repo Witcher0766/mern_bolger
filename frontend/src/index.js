@@ -24,7 +24,7 @@ const router = createBrowserRouter(
     <Route index={true} path='/' element={<IndexPage/>}/>
     <Route path="/post/:id" element={<Postpage />} />
     <Route path="/login" element={<LoginPage />} />
-     {/* <Route path="/register" element={<Register />} /> */}
+     <Route path="/register" element={<Register />} />
  
 
       {/* // <Route path="/create" element={<Create />} /> */}

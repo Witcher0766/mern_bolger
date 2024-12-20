@@ -25,7 +25,6 @@ const LoginPage = () => {
   const [login, {isLoading} ] = useLoginMutation();
 
   const {userInfo} = useSelector((state) => state.auth);
-  console.log("userinfo", userInfo)
 
   const {search} = useLocation();
   const sp = new URLSearchParams(search);
