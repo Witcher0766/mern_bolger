@@ -13,39 +13,43 @@ const Create = () => {
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
 
-    async function createPost(e) {
-        try {
-            if (!title || !summary || !content || !files || files.length === 0) {
-                console.error('Invalid post data');
-                return;
-            }
-            const data = new FormData();
-            data.set('title', title);
-            data.set('summary', summary);
-            data.set('content', content);
-            if (files.length > 0) {
-                data.set('file', files[0]);
-            }
-            e.preventDefault();
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post`, {
-                // method: 'POST',
-                // body: data,
-                // credentials: 'include',
-                method: 'POST',
-                body: data,
-                credentials: 'include',
-                withCredentials: true,
-                mode: 'cors',
-            });
-            if (response.ok) {
-                navigate('/');
-                toast.success("Post created");
-            } else {
-                toast.error("Failed to create post");
-            }
-        } catch (error) {
-            console.error('Error during fetch:', error.message);
-        }
+    // async function createPost(e) {
+    //     try {
+    //         if (!title || !summary || !content || !files || files.length === 0) {
+    //             console.error('Invalid post data');
+    //             return;
+    //         }
+    //         const data = new FormData();
+    //         data.set('title', title);
+    //         data.set('summary', summary);
+    //         data.set('content', content);
+    //         if (files.length > 0) {
+    //             data.set('file', files[0]);
+    //         }
+    //         e.preventDefault();
+    //         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post`, {
+    //             // method: 'POST',
+    //             // body: data,
+    //             // credentials: 'include',
+    //             method: 'POST',
+    //             body: data,
+    //             credentials: 'include',
+    //             withCredentials: true,
+    //             mode: 'cors',
+    //         });
+    //         if (response.ok) {
+    //             navigate('/');
+    //             toast.success("Post created");
+    //         } else {
+    //             toast.error("Failed to create post");
+    //         }
+    //     } catch (error) {
+    //         console.error('Error during fetch:', error.message);
+    //     }
+    // }
+
+    const createPost = async () => {
+        
     }
 
   return (

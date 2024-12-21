@@ -15,47 +15,46 @@ const Editpost = () => {
   const [content, setContent] = useState('');
   const [files, setFiles] = useState('');
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}post/${id}`)
-    .then(response => {
-      response.json().then(postInfo => {
-        setTitle(postInfo.title);
-        setContent(postInfo.content);
-        setSummary(postInfo.summary);
-      })
-    })
-  }, []);
+//   useEffect(() => {
+//     fetch(`${process.env.REACT_APP_SERVER_URL}post/${id}`)
+//     .then(response => {
+//       response.json().then(postInfo => {
+//         setTitle(postInfo.title);
+//         setContent(postInfo.content);
+//         setSummary(postInfo.summary);
+//       })
+//     })
+//   }, []);
 
- async function updatePost (e) {
-  e.preventDefault();
-  const data = new FormData();
-  data.set('title', title);
-  data.set('summary', summary);
-  data.set('content', content);
-  data.set('id', id);
-  if (files?.[0]) {
-      data.set('file', files?.[0]);
-  }
-   const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post`, {
-                // method: 'PUT',
-                // body: data,
-                // credentials: 'include',
-                method: 'PUT',
-                body: data,
-                credentials: 'include',
-                withCredentials: true,
-                mode: 'cors',
-            });
+//  async function updatePost (e) {
+//   e.preventDefault();
+//   const data = new FormData();
+//   data.set('title', title);
+//   data.set('summary', summary);
+//   data.set('content', content);
+//   data.set('id', id);
+//   if (files?.[0]) {
+//       data.set('file', files?.[0]);
+//   }
+//    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post`, {
+//                 method: 'PUT',
+//                 body: data,
+//                 credentials: 'include',
+//                 withCredentials: true,
+//                 mode: 'cors',
+//             });
 
-            if (response.ok) {
-              navigate(`/post/${id}`);
-              toast.success("post is edited")
-          } else {
-            toast.error("Failed to edit post:")
-              // console.error('Failed to update post:', response.status, response.statusText);
-          }
+//             if (response.ok) {
+//               navigate(`/post/${id}`);
+//               toast.success("post is edited")
+//           } else {
+//             toast.error("Failed to edit post:")
+//           }
+//   }
 
-  }
+const updatePost = () => {
+  
+}
 
   return (
     <>

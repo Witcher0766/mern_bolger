@@ -14,13 +14,16 @@ const IndexPage = () => {
     ) : isError ? (
       <div>{isError?.data?.message || isError.error}</div>
     ) : (
-      <>
-      <div className='px-0 md:px-10'>
-     {posts.map(post => (
-        <Post key={post._id} {...post} />
+      <div className="flex flex-col gap-4 px-4 sm:px-6 lg:px-8 py-4">
+      {posts.map((post) => (
+        <div 
+          key={post._id} 
+          className="w-full"
+        >
+          <Post {...post} />
+        </div>
       ))}
-     </div>
-      </>
+    </div>
     ) }
    
     </>

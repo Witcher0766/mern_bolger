@@ -8,11 +8,13 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGetPostsByIdQuery } from '../../slices/postsApiSlice';
 import Loader from '../../component/Loader';
+import { useSelector } from 'react-redux';
 
 
 const Postpage = () => {
   const {id: postId} = useParams();
   const {data: postInfo, isLoading, isError} = useGetPostsByIdQuery(postId);
+  const {userInfo} = useSelector((state) => state.auth);
   // const handleDelete = async () => {
   //   try {
   //     const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post/${id}`, {
@@ -36,6 +38,9 @@ const Postpage = () => {
   }
   
 
+  console.log("postInfo", postInfo);
+  console.log("userInfo", userInfo)
+
   if(!postInfo) return '';
   return (
     <>
@@ -51,12 +56,12 @@ const Postpage = () => {
     <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
     <p className={styles["author"]}>{`by @${postInfo.author.username}`}</p>
     </div>
-    {/* {userInfo.id === postInfo.author._id && ( */}
+    {userInfo._id === postInfo.author._id && (
       <div className={styles["edit-post"]}> 
-      <Link to={`/edit/${postInfo._id}`} className={styles["edit-btn"]} ><FontAwesomeIcon icon={faPenToSquare} bounce /></Link>
-      <Link to={'/'} className={styles["delete-btn"]} onClick={handleDelete}><FontAwesomeIcon icon={faTrash} bounce /></Link>
+      <Link to={`/edit/${postInfo._id}`} className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300" ><FontAwesomeIcon icon={faPenToSquare} bounce /></Link>
+      <Link to={'/'} className="w-10 h-10 flex items-center justify-center bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300" onClick={handleDelete}><FontAwesomeIcon icon={faTrash} bounce /></Link>
       </div>
-    {/* )} */}
+    )}
     <img className={styles["post-img"]} src={`${process.env.REACT_APP_SERVER_URL}${postInfo.cover}`} alt="" />
     <div className={styles["main-content"]} dangerouslySetInnerHTML={{__html:postInfo.content}} />
     </div>
