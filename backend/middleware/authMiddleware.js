@@ -1,6 +1,6 @@
 import jwt  from 'jsonwebtoken';
 import asyncHandler from './asyncHandler.js';
-import User from '../models/userModel.js';
+import User from '../models/User.js';
 
 // protect routes 
 
@@ -24,16 +24,16 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 });
 
-// Admin middleware
+// user middleware
 
-const admin = (req, res, next) => {
-    if(req.user && req.user.isAdmin) {
-        next();
+const userPostProtect = (req, res, next) => { 
+    if (req.user) { 
+        next(); 
     } else {
         res.status(401);
-        throw new Error('Not authorised as admin');
+        throw new Error('Not authorized, please log in');
     }
-}
+};
 
 
-export {protect, admin};
+export {protect, userPostProtect};
