@@ -89,8 +89,8 @@ const LoginPage = () => {
           Demo Login (Username, Password)
         </AccordionSummary>
         <AccordionDetails>
-        <p>Username: luffy@gmail.com</p>
-        <p>Password: luffy123</p>
+        <p>Username: johnDoe@gmail.com</p>
+        <p>Password: password123</p>
         </AccordionDetails>
       </Accordion>
     </div>
