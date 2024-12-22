@@ -10,7 +10,7 @@ const Post = ({_id, title, summary, content, cover, createdAt, author}) => {
     <>
     <div className={styles["blog-data"]}>
       <div className={styles["blog-image"]}>
-      <img src={`${process.env.REACT_APP_SERVER_URL}${cover}`} alt=""/>
+      <img src={`${cover}`} alt=""/>
       </div>
       <div className={styles["blog-content"]}>
      <div className='flex flex-col gap-1 '>

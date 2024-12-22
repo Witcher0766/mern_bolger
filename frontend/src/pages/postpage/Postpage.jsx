@@ -98,7 +98,7 @@ const Postpage = () => {
         <div className="w-full overflow-hidden mb-6">
           <img
             className="w-full h-64 md:h-96 object-cover"
-            src={`${process.env.REACT_APP_SERVER_URL}${postInfo.cover}`}
+            src={`${postInfo.cover}`}
             alt="Post Cover"
           />
         </div>

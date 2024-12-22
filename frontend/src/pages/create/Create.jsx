@@ -7,7 +7,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { useCreatePostsMutation } from '../../slices/postsApiSlice';
+import { useCreatePostsMutation, useUploadPostImageMutation } from '../../slices/postsApiSlice';
 import Loader from '../../component/Loader';
 
 const Create = () => {
@@ -16,14 +16,15 @@ const Create = () => {
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
-    const [files, setFiles] = useState('');
-    const cover = "asdfasd";
+    const [cover, setCover] = useState('');
+    // const cover = "asdfasd";
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
     const [createPost, {isLoading: loadingCreate}] = useCreatePostsMutation();
+    const [uploadProductImage, {isLoading: loadingUpload}] = useUploadPostImageMutation();
     const {userInfo} = useSelector((state) => state.auth);
 
 
@@ -36,6 +37,19 @@ const Create = () => {
         } catch (err) {
           toast.error(err?.data?.message || err.error);
         }
+    }
+
+    const uploadHandler = async (e) => {
+      // console.log(e.target.files[0]);
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      try {
+        const res = await uploadProductImage(formData).unwrap();
+        toast.success(res.message);
+        setCover(res.image);
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
     }
 
   return (
@@ -54,11 +68,30 @@ const Create = () => {
             value={summary}
             onChange={e => setSummary(e.target.value)}
              />
-            <input 
+            {/* <input 
             type="file" 
-            // value={files}
-             onChange={e => setFiles(e.target.files)}   
-            />
+            value={cover}
+             onChange={e => setCover(e.target.files)}   
+            /> */}
+
+            <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">Upload Image</label>
+      <input 
+        type="file" 
+        onChange={uploadHandler}
+        className="block w-full text-sm text-gray-500
+                   file:mr-4 file:py-2 file:px-4
+                   file:rounded-md file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-blue-50 file:text-blue-700
+                   hover:file:bg-blue-100"
+      />
+      {cover && (
+        <p className="text-sm text-green-600">
+          Selected File: {cover.name}
+        </p>
+      )}
+    </div>
             <ReactQuill 
             value={content} 
             className={styles["tupe"]} 
