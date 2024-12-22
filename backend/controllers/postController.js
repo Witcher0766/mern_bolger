@@ -30,7 +30,6 @@ const getPostById = asyncHandler(async (req, res) => {
 // @access PRIVATE/users
 const createPost = asyncHandler(async (req, res) => {
   const { title, summary, content, cover } = req.body;
-  console.log("req.body", req.body);
   if (!title || !summary || !content || !cover) {
     res.status(400);
     throw new Error('All fields are required');
@@ -51,4 +50,25 @@ const createPost = asyncHandler(async (req, res) => {
   res.status(201).json(createdPost);
 })
 
-export {getPosts, getPostById, createPost};
+
+// @desc Update a post
+// @route PUT /api/posts/:id
+// @access Private
+const updatePost = asyncHandler(async (req, res) => {
+  const { title, summary, content, cover} = req.body;
+  const post = await PostModel.findById(req.params.id);
+
+  if(post) {
+    post.title = title,
+    post.summary = summary,
+    post.content = content,
+    post.cover = cover;
+    const updatePost = await post.save();
+    res.json(updatePost);
+  } else {
+    res.status(404);
+    throw new Error('Post not found');
+  }
+})
+
+export {getPosts, getPostById, createPost, updatePost};

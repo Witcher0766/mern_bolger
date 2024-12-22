@@ -5,57 +5,43 @@ import styles from './Create.module.css';
 import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useCreatePostsMutation } from '../../slices/postsApiSlice';
+import Loader from '../../component/Loader';
 
 const Create = () => {
-    const navigate = useNavigate();
+
+    
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
+    const cover = "asdfasd";
 
-    // async function createPost(e) {
-    //     try {
-    //         if (!title || !summary || !content || !files || files.length === 0) {
-    //             console.error('Invalid post data');
-    //             return;
-    //         }
-    //         const data = new FormData();
-    //         data.set('title', title);
-    //         data.set('summary', summary);
-    //         data.set('content', content);
-    //         if (files.length > 0) {
-    //             data.set('file', files[0]);
-    //         }
-    //         e.preventDefault();
-    //         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post`, {
-    //             // method: 'POST',
-    //             // body: data,
-    //             // credentials: 'include',
-    //             method: 'POST',
-    //             body: data,
-    //             credentials: 'include',
-    //             withCredentials: true,
-    //             mode: 'cors',
-    //         });
-    //         if (response.ok) {
-    //             navigate('/');
-    //             toast.success("Post created");
-    //         } else {
-    //             toast.error("Failed to create post");
-    //         }
-    //     } catch (error) {
-    //         console.error('Error during fetch:', error.message);
-    //     }
-    // }
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const createPost = async () => {
-        
+
+    const [createPost, {isLoading: loadingCreate}] = useCreatePostsMutation();
+    const {userInfo} = useSelector((state) => state.auth);
+
+
+    const createPostHandler = async (e) => {
+        e.preventDefault();
+        try {
+          await createPost({title, summary, content, cover}).unwrap();
+          navigate('/');
+          toast.success("new post is created");
+        } catch (err) {
+          toast.error(err?.data?.message || err.error);
+        }
     }
 
   return (
     <>
     <div className={styles["post"]}>
-        <form onSubmit={createPost}>
+        <form onSubmit={createPostHandler}>
             <input 
             type="title" 
              placeholder={'Title'}   
@@ -79,8 +65,9 @@ const Create = () => {
             theme="snow"
             onChange={setContent} 
             />
+            
             <button className='btn'>Create post</button>
-            {/* <Button variant="contained">Create post</Button> */}
+          {loadingCreate && <Loader/>}
         </form>
         </div>
     </>

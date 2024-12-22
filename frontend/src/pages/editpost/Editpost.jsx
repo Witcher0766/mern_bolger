@@ -4,62 +4,58 @@ import styles from './Editpost.module.css';
 import ReactQuill from 'react-quill';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import { useUpdatePostMutation, useGetPostsByIdQuery } from '../../slices/postsApiSlice';
 
 
 const Editpost = () => {
 
-  const {id} = useParams();
-  const navigate = useNavigate();
+  const {id: postId} = useParams();
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
   const [files, setFiles] = useState('');
+  const cover = "daatat";
 
-//   useEffect(() => {
-//     fetch(`${process.env.REACT_APP_SERVER_URL}post/${id}`)
-//     .then(response => {
-//       response.json().then(postInfo => {
-//         setTitle(postInfo.title);
-//         setContent(postInfo.content);
-//         setSummary(postInfo.summary);
-//       })
-//     })
-//   }, []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-//  async function updatePost (e) {
-//   e.preventDefault();
-//   const data = new FormData();
-//   data.set('title', title);
-//   data.set('summary', summary);
-//   data.set('content', content);
-//   data.set('id', id);
-//   if (files?.[0]) {
-//       data.set('file', files?.[0]);
-//   }
-//    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}post`, {
-//                 method: 'PUT',
-//                 body: data,
-//                 credentials: 'include',
-//                 withCredentials: true,
-//                 mode: 'cors',
-//             });
+  const [updatePost, {isLoading: loadingUpdate}] = useUpdatePostMutation();
+  const {data: post, isLoading, error} = useGetPostsByIdQuery(postId);
 
-//             if (response.ok) {
-//               navigate(`/post/${id}`);
-//               toast.success("post is edited")
-//           } else {
-//             toast.error("Failed to edit post:")
-//           }
-//   }
+  useEffect(() => {
+    if(post){
+      setTitle(post.title);
+      setSummary(post.summary);
+      setContent(post.content);
+      setFiles(post.files);
+    }
+  }, [post]);
 
-const updatePost = () => {
-  
+  console.log("updata", post)
+
+const updatePostHandler = async (e) => {
+  e.preventDefault();
+  const updatePostData = {
+    postId,
+    title,
+    summary,
+    content,
+    cover,
+  }
+  const result = await updatePost(updatePostData);
+  if(result.error){
+    toast.error(result.error);
+  } else {
+    toast.success('Post updated');
+    navigate('/');
+  }
 }
 
   return (
     <>
     <div className={styles["post"]}>
-        <form onSubmit={updatePost}>
+        <form onSubmit={updatePostHandler}>
             <input 
             type="title" 
              placeholder={'Title'}   

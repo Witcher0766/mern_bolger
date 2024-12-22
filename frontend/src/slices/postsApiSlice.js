@@ -7,6 +7,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             query: () => ({
                 url: POSTS_URL,
             }),
+            providesTags: ['Post'],
             keepUnusedDataFor: 5
         }),
         getPostsById: builder.query({
@@ -15,7 +16,23 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5
         }),
+        createPosts: builder.mutation({
+            query: (data) => ({
+                url: POSTS_URL,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['Post'],
+        }),
+        updatePost: builder.mutation({
+            query: (data) => ({
+                url: `${POSTS_URL}/${data.postId}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Post'],
+        })
     }),
 });
 
-export const {useGetPostsQuery, useGetPostsByIdQuery} = postsApiSlice;
+export const {useGetPostsQuery, useGetPostsByIdQuery, useCreatePostsMutation, useUpdatePostMutation} = postsApiSlice;

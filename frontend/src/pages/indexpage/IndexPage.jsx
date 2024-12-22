@@ -6,7 +6,6 @@ import Loader from '../../component/Loader';
 const IndexPage = () => {
 
   const {data: posts, isLoading, isError} = useGetPostsQuery();
-
   return (
     <>
     {isLoading ? (
