@@ -10,7 +10,6 @@ import LoginPage from "./pages/loginpage/LoginPage";
 import Register from "./pages/loginpage/Register";
 import Create from "./pages/create/Create";
 import Editpost from "./pages/editpost/Editpost";
-
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -19,10 +18,12 @@ import {
 } from "react-router-dom";
 import IndexPage from "./pages/indexpage/IndexPage";
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<IndexPage />} />
+      <Route path="/page/:pageNumber" element={<IndexPage />} />
       <Route path="/post/:id" element={<Postpage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<Register />} />

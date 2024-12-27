@@ -1,9 +1,7 @@
 import React from "react";
-import styles from "./Box.module.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setCredentials } from "../../slices/authSlice";
 import { useSelector } from "react-redux";
 
 const Box = () => {

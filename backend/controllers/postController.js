@@ -5,8 +5,15 @@ import PostModel from "../models/Post.js";
 // @route GET /api/posts
 // @access Public
 const getPosts = asyncHandler(async (req, res) => {
-  const posts = await PostModel.find({});
-  res.json(posts);
+  const pageSize = 2;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await PostModel.countDocuments();
+  // const posts = await PostModel.find({});
+  // res.json(posts);
+  const posts = await PostModel.find({})
+  .limit(pageSize)
+  .skip(pageSize * (page - 1));
+  res.json({posts, page, pages: Math.ceil(count/pageSize)});
 });
 
 // @desc Fetch post by id

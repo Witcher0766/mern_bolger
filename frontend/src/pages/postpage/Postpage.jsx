@@ -1,12 +1,11 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import styles from './Postpage.module.css';
 import {formatISO9075} from "date-fns";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useGetPostsByIdQuery, useDeletePostMutation, useGetPostsQuery } from '../../slices/postsApiSlice';
+import { useGetPostsByIdQuery, useDeletePostMutation } from '../../slices/postsApiSlice';
 import Loader from '../../component/Loader';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -70,6 +69,7 @@ const Postpage = () => {
             >
               <FontAwesomeIcon icon={faTrash} bounce />
             </Link>
+            {loadingDelete && <Loader/>}
           </div>
         )}
 

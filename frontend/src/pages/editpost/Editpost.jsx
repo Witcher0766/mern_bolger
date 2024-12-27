@@ -4,7 +4,6 @@ import styles from './Editpost.module.css';
 import ReactQuill from 'react-quill';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useDispatch } from 'react-redux';
 import { useUpdatePostMutation, useGetPostsByIdQuery } from '../../slices/postsApiSlice';
 
 
@@ -17,11 +16,13 @@ const Editpost = () => {
   const [files, setFiles] = useState('');
   const cover = "daatat";
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [updatePost, {isLoading: loadingUpdate}] = useUpdatePostMutation();
-  const {data: post, isLoading, error} = useGetPostsByIdQuery(postId);
+  const [updatePost] = useUpdatePostMutation();
+  const {data: post} = useGetPostsByIdQuery(postId);
+
+  // const [updatePost, {isLoading: loadingUpdate}] = useUpdatePostMutation();
+  // const {data: post, isLoading, error} = useGetPostsByIdQuery(postId);
 
   useEffect(() => {
     if(post){
@@ -70,7 +71,7 @@ const updatePostHandler = async (e) => {
              />
             <input 
             type="file" 
-            // value={files}
+            value={files}
              onChange={e => setFiles(e.target.files)}   
             />
             <ReactQuill 
