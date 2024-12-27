@@ -17,6 +17,7 @@ const Box = () => {
   }
 
   return (
+    <>
     <div className="flex flex-col text-center md:text-left p-5 md:p-10 lg:px-28 mb-8 justify-center items-center md:items-start">
   <div className="flex flex-col justify-center gap-6 max-w-3xl">
     <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight">
@@ -44,7 +45,7 @@ const Box = () => {
     </div>
   </div>
 </div>
-
+</>
   );
 };
 

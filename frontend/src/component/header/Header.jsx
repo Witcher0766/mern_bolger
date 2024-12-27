@@ -30,21 +30,23 @@ const Header = () => {
 
   return (
     <>
-      <header className="d-flex justify-between px-28">
+      <header className="d-flex flex-col  md:flex-row gap-y-5 px-28 ">
+      <div >
         <Link
           to="/"
-          className="font-extrabold font-serif text-2xl md:text-3xl lg:text-4xl"
+          className="font-extrabold font-serif text-4xl md:text-3xl lg:text-4xl"
         >
           Bol<span className="text-sky-400">ger</span>
         </Link>
-        <nav>
+        </div>
+        <nav className="d-flex gap-x-5">
           {userInfo && (
             <>
               {/* <Link className={styles["link-btn"]} to="/create">Create</Link>
             <button className='btn-1' onClick={logout}>Logout</button>
             <p className="w-10 h-10 border-0 rounded-full flex items-center justify-center bg-gray-400" to="/create">{userInfo.username.charAt(0).toUpperCase()}</p> */}
 
-              <div className="flex sm:flex-row items-center gap-2">
+              <div className="flex sm:flex-row md:flex-row items-center gap-2">
                 <Link
                   className="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-lg text-center"
                   to="/create"

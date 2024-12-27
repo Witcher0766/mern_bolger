@@ -12,6 +12,8 @@
 main {
     max-width: 1400px;
     margin: auto;
+    display: flex;
+    justify-content: center;
 }
 
 .btn {
