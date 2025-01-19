@@ -9,10 +9,10 @@ const year = date.getFullYear()
    <>
     <footer className='flex h-20 flex-col text-center align-middle justify-center link-footer'>
     <div className='font-medium text-lg flex gap-3 justify-center link-footer'>
-        <Link to="https://react-project-7ceac.web.app/" target='_blank'>
+        <Link to="https://react-project-apq0.onrender.com/" target='_blank'>
             About
         </Link>
-        <Link to="https://react-project-7ceac.web.app/contact" target='_blank'>ContactUs</Link>
+        <Link to="https://react-project-apq0.onrender.com/contact" target='_blank'>ContactUs</Link>
     </div>
     &copy; {year} All Rights Reserved
     </footer>
