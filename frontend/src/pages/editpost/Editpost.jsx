@@ -13,7 +13,6 @@ const Editpost = () => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
-  const [files, setFiles] = useState('');
   const cover = "daatat";
 
   const navigate = useNavigate();
@@ -29,11 +28,9 @@ const Editpost = () => {
       setTitle(post.title);
       setSummary(post.summary);
       setContent(post.content);
-      setFiles(post.files);
     }
   }, [post]);
 
-  console.log("updata", post)
 
 const updatePostHandler = async (e) => {
   e.preventDefault();
@@ -69,11 +66,6 @@ const updatePostHandler = async (e) => {
             value={summary}
             onChange={e => setSummary(e.target.value)}
              />
-            <input 
-            type="file" 
-            value={files}
-             onChange={e => setFiles(e.target.files)}   
-            />
             <ReactQuill 
             value={content} 
             className={styles["tupe"]} 
